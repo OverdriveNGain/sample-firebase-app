@@ -3,10 +3,6 @@ import { MessageArea } from "./message-area";
 import { ChatBar } from "./chat-bar";
 
 export const ChatArea = () => {
-  const [users, setUsers] = useState([
-    { id: "1", name: "John" },
-    { id: "2", name: "Mary" },
-  ]);
   const [account, setAccount] = useState({ id: "3", name: "Bob" });
   const [messages, setMessages] = useState([
     { id: "1", from: "1", message: "Hello", timestamp: 1729755044 },
