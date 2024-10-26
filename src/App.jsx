@@ -13,7 +13,7 @@ function App() {
     { id: "3", name: "Phil" },
   ]);
 
-  const [account, setAccount] = useState({ id: "3" });
+  const [account, setAccount] = useState({ id: "3", name: "Phil" });
 
   const [messages, setMessages] = useState([
     { id: "1", from: "1", message: "Hello", timestamp: 1729755044 },

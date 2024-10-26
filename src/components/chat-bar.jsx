@@ -7,7 +7,7 @@ export const ChatBar = () => {
   return (
     <div className="flex flex-row bg-[#08381D] items-center py-2 px-8">
       <input
-        className="flex-1 h-10 border border-gray-300 rounded-lg p-2"
+        className="flex-1 h-10 border border-gray-300 rounded-lg p-2 bg-gray-200 text-black"
         type="text"
         placeholder="Type a message..."
         value={message}

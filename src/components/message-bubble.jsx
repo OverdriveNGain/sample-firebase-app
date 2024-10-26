@@ -13,7 +13,7 @@ export const MessageBubble = ({ messageData }) => {
 
   const userName = user ? user.name : "Anonymous";
 
-  const fromCurrentUser = messageData.from === account.id;
+  const fromCurrentUser = messageData.from === account?.id;
 
   return fromCurrentUser ? (
     <div className="flex justify-end ml-16">

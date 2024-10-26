@@ -8,8 +8,10 @@ export const Navbar = () => {
   const accountContext = useContext(AccountContext);
   const [accountPanelMode, setAccountPanelMode] = useState(null);
 
-  const isLoggedIn = accountContext.account != null;
-  const accountName = accountContext.account?.name ?? "";
+  const { account } = accountContext;
+
+  const isLoggedIn = account != null;
+  const accountName = account?.name ?? "";
 
   const accountButtonCallback = () => {
     if (isLoggedIn) {
