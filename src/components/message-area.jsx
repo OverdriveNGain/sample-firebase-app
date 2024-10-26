@@ -3,9 +3,7 @@ import { useContext } from "react";
 import { MessagesContext } from "../contexts/messages-context";
 
 export const MessageArea = () => {
-  const messagesContext = useContext(MessagesContext);
-
-  const { messages } = messagesContext;
+  const { messages, messagesService } = useContext(MessagesContext);
 
   const messagesWithNeighbors = [];
 
