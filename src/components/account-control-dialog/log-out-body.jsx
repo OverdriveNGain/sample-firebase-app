@@ -4,9 +4,7 @@ import { AccountControlDialogContext } from "../../contexts/account-control-dial
 
 export const LogOutBody = () => {
   const accountContext = useContext(AccountContext);
-  const [accountPanelMode, setAccountPanelMode] = useContext(
-    AccountControlDialogContext
-  );
+  const [, setAccountPanelMode] = useContext(AccountControlDialogContext);
 
   return (
     <div>

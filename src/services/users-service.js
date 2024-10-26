@@ -28,7 +28,7 @@ export class UsersService {
 
   /**
    * This function is used to asynchronously listen for new users and fetch users from the backend
-   * and call a callback for every result
+   * and update the component tree
    * 
    * @param {Function} callback - a function that takes a parameter. If the operation was successful the parameter is an array of users. If the operation failed, the parameter is a string with an error message
    */
@@ -46,6 +46,14 @@ export class UsersService {
         ...this.users
       ]);
     }, intervalMillis);
+
+    // ⬆️ ⬆️ ⬆️ Update to use Firebase!
+  };
+
+  getUsers = () => {
+    // ⬇️ ⬇️ ⬇️ Update to use Firebase!
+
+    return [...this.messages];
 
     // ⬆️ ⬆️ ⬆️ Update to use Firebase!
   };

@@ -3,9 +3,11 @@ import { useContext } from "react";
 import { MessagesContext } from "../contexts/messages-context";
 
 export const MessageArea = () => {
-  const { messages, messagesService } = useContext(MessagesContext);
+  const { messagesService } = useContext(MessagesContext);
 
   const messagesWithNeighbors = [];
+
+  const messages = messagesService.getMessages();
 
   for (let i = 0; i < messages.length; i++) {
     const message = messages[i];

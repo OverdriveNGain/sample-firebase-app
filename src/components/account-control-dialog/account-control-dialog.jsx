@@ -7,10 +7,7 @@ import { LogInBody } from "./log-in-body";
 import { RegisterBody } from "./register-body";
 
 export const AccountControlDialog = () => {
-  const accountContext = useContext(AccountContext);
-  const [accountPanelMode, setAccountPanelMode] = useContext(
-    AccountControlDialogContext
-  );
+  const [accountPanelMode] = useContext(AccountControlDialogContext);
 
   let dialogTitle = "Unknown";
   let dialogBody = <></>;

@@ -5,12 +5,12 @@ import { UsersService } from "../../services/users-service";
 const usersService = new UsersService();
 
 export const UsersProvider = ({ children }) => {
-  const [users, setUsers] = useState([]);
+  const [, setUsers] = useState([]);
 
   usersService.updateSetFunction(setUsers);
 
   return (
-    <UsersContext.Provider value={{ users, usersService }}>
+    <UsersContext.Provider value={{ usersService }}>
       {children}
     </UsersContext.Provider>
   );

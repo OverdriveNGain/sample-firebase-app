@@ -28,7 +28,7 @@ export class MessagesService {
 
   /**
    * This function is used to asynchronously listen for new messages and fetch messages from the backend
-   * and call a callback for every result
+   * and update the component tree
    * 
    * @param {Function} callback - a function that takes a parameter. If the operation was successful the parameter is an array of messages. If the operation failed, the parameter is a string with an error message
    */
@@ -62,6 +62,14 @@ export class MessagesService {
       message,
       timestamp,
     });
+
+    // ⬆️ ⬆️ ⬆️ Update to use Firebase!
+  };
+
+  getMessages = () => {
+    // ⬇️ ⬇️ ⬇️ Update to use Firebase!
+
+    return [...this.messages];
 
     // ⬆️ ⬆️ ⬆️ Update to use Firebase!
   };

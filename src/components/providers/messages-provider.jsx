@@ -5,12 +5,12 @@ import { MessagesService } from "../../services/messages-service";
 const messagesService = new MessagesService();
 
 export const MessagesProvider = ({ children }) => {
-  const [messages, setMessages] = useState([]);
+  const [, setMessages] = useState([]);
 
   messagesService.updateSetFunction(setMessages);
 
   return (
-    <MessagesContext.Provider value={{ messages, messagesService }}>
+    <MessagesContext.Provider value={{ messagesService }}>
       {children}
     </MessagesContext.Provider>
   );

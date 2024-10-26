@@ -4,10 +4,7 @@ import { AccountControlDialogContext } from "../../contexts/account-control-dial
 import { AccountControlMode } from "../../types/enums/account-control";
 
 export const LogInBody = () => {
-  const accountContext = useContext(AccountContext);
-  const [accountPanelMode, setAccountPanelMode] = useContext(
-    AccountControlDialogContext
-  );
+  const [, setAccountPanelMode] = useContext(AccountControlDialogContext);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
