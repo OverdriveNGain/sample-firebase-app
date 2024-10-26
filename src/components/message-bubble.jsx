@@ -10,24 +10,34 @@ export const MessageBubble = ({ messageData }) => {
   const { account } = accountContext;
 
   const user = userContext.find((user) => user.id === messageData.from);
-
   const userName = user ? user.name : "Anonymous";
-
   const fromCurrentUser = messageData.from === account?.id;
+  const previousMessageFromSameUser =
+    messageData.prev?.from === messageData.from;
+  const nextMessageFromSameUser = messageData.next?.from === messageData.from;
 
   return fromCurrentUser ? (
-    <div className="flex justify-end ml-16">
-      <div className="bg-[#15ae5c] rounded-lg px-4 py-2 flex flex-col items-end">
-        <div className="ml-2 text-[10px] text-green-300">{userName}</div>
+    <div
+      className={`flex justify-end ml-16 ${
+        previousMessageFromSameUser ? "mt-1" : "mt-2"
+      }`}
+    >
+      <div className="bg-[#15ae5c] rounded-l-xl px-4 py-1 flex flex-col items-end">
         {messageData.message}
       </div>
     </div>
   ) : (
-    <div className="flex mr-16">
-      <div className="bg-[#444444] rounded-lg px-4 py-2 flex flex-col">
-        <div className="mr-2 text-[10px] text-gray-400">{userName}</div>
-        {messageData.message}
+    <>
+      {!previousMessageFromSameUser && (
+        <div className="mr-2 text-[10px] text-gray-400 mb mt-1 ml-4">
+          {userName}
+        </div>
+      )}
+      <div className="flex mr-16 mt-1">
+        <div className="bg-[#444444] rounded-r-xl px-4 py-1 flex flex-col">
+          {messageData.message}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
