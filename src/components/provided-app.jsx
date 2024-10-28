@@ -12,5 +12,6 @@ export const ProvidedApp = () => {
     usersService.fetchUsers();
   }, [messagesService, usersService]);
 
+  console.log("Provided App Rebuild");
   return <ChatScreen />;
 };

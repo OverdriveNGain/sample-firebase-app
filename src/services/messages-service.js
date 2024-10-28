@@ -2,10 +2,8 @@
 import { mockMessages } from '../mocks/mock-messages';
 
 export class MessagesService {
-  constructor() {
-    this.setFunction = null;
-    this.messages = [];
-  }
+  #setFunction = null;
+  #messages = [];
 
   /**
    * This function allows the MessagesService instance to update the Application state
@@ -13,7 +11,7 @@ export class MessagesService {
    * This should only be used by the MessagesProvider
    */
   updateSetFunction = (setFunction) => {
-    this.setFunction = setFunction;
+    this.#setFunction = setFunction;
   };
 
   /**
@@ -22,7 +20,7 @@ export class MessagesService {
    * This function should only be used by the MessagesProvider
    */
   setMessages = (messages) => {
-    this.setFunction(messages);
+    this.#setFunction(messages);
   };
 
 
@@ -37,14 +35,12 @@ export class MessagesService {
 
     const intervalMillis = 2000;
 
-    if (this.messages.length === 0) {
-      this.messages.push(...mockMessages);
+    if (this.#messages.length === 0) {
+      this.#messages.push(...mockMessages);
     }
 
     setInterval(() => {
-      callback([
-        ...this.messages
-      ]);
+      this.#setFunction(this.#messages)
     }, intervalMillis);
 
     // ⬆️ ⬆️ ⬆️ Update to use Firebase!
@@ -56,7 +52,7 @@ export class MessagesService {
     const messageId = crypto.randomUUID();
     const timestamp = new Date().getTime();
 
-    this.messages.push({
+    this.#messages.push({
       id: messageId,
       from: accountId,
       message,
@@ -69,7 +65,7 @@ export class MessagesService {
   getMessages = () => {
     // ⬇️ ⬇️ ⬇️ Update to use Firebase!
 
-    return [...this.messages];
+    return [...this.#messages];
 
     // ⬆️ ⬆️ ⬆️ Update to use Firebase!
   };

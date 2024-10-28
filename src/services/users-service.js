@@ -2,10 +2,8 @@
 import { mockUsers } from '../mocks/mock-users';
 
 export class UsersService {
-  constructor() {
-    this.setFunction = null;
-    this.users = [];
-  }
+  #setFunction = null;
+  #users = [];
 
   /**
    * This function allows the UsersService instance to update the Application state
@@ -13,7 +11,7 @@ export class UsersService {
    * This should only be used by the UsersProvider
    */
   updateSetFunction = (setFunction) => {
-    this.setFunction = setFunction;
+    this.#setFunction = setFunction;
   };
 
   /**
@@ -22,9 +20,8 @@ export class UsersService {
    * This function should only be used by the UsersProvider
    */
   setUsers = (users) => {
-    this.setFunction(users);
+    this.#setFunction(users);
   };
-
 
   /**
    * This function is used to asynchronously listen for new users and fetch users from the backend
@@ -37,14 +34,12 @@ export class UsersService {
 
     const intervalMillis = 2000;
 
-    if (this.users.length === 0) {
-      this.users.push(...mockUsers);
+    if (this.#users.length === 0) {
+      this.#users.push(...mockUsers);
     }
 
     setInterval(() => {
-      callback([
-        ...this.users
-      ]);
+      this.#setFunction(this.#users)
     }, intervalMillis);
 
     // ⬆️ ⬆️ ⬆️ Update to use Firebase!
@@ -53,7 +48,7 @@ export class UsersService {
   getUsers = () => {
     // ⬇️ ⬇️ ⬇️ Update to use Firebase!
 
-    return [...this.messages];
+    return [...this.#users];
 
     // ⬆️ ⬆️ ⬆️ Update to use Firebase!
   };

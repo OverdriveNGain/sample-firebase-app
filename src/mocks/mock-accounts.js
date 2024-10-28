@@ -1,1 +1,1 @@
-export const mockAuth = [];
+export const mockAccount = [];

@@ -1,11 +1,9 @@
 
-import { mockAuth } from '../mocks/mock-users';
+import { mockAccount } from '../mocks/mock-accounts';
 
 export class AccountService {
-  constructor() {
-    this.setFunction = null;
-    this.currentUser = null;
-  }
+  #currentUser = null;
+  #setFunction = null;
 
   /**
    * This function allows the AuthService instance to update the Application state
@@ -13,7 +11,7 @@ export class AccountService {
    * This should only be used by the AuthProvider
    */
   updateSetFunction = (setFunction) => {
-    this.setFunction = setFunction;
+    this.#setFunction = setFunction;
   };
 
   /**
@@ -22,7 +20,34 @@ export class AccountService {
    * This function should only be used by the AuthProvider
    */
   setAuth = (users) => {
-    this.setFunction(users);
+    this.#setFunction(users);
+  };
+
+  /**
+   * Checks if a user is currently logged in.
+   * 
+   * @returns {boolean} - True if a user is currently logged in, false otherwise.
+   */
+  isLoggedIn = () => {
+    // ⬇️ ⬇️ ⬇️ Update to use Firebase!
+
+    return this.#currentUser !== null;
+
+    // ⬆️ ⬆️ ⬆️ Update to use Firebase!
+  };
+
+
+  /**
+   * Retrieves the current user details.
+   * 
+   * @returns {{ id: string, name: string }|null} - An object containing the current user details or null if no user is logged in.
+   */
+  getCurrentUser = () => {
+    // ⬇️ ⬇️ ⬇️ Update to use Firebase!
+
+    return { ...this.#currentUser };
+
+  // ⬆️ ⬆️ ⬆️ Update to use Firebase!
   };
 
   /**
@@ -37,7 +62,7 @@ export class AccountService {
 
     const hashString = this.#hashString(password);
 
-    if (mockAuth.filter(user => user.id === username && user.password === hashString).length > 0) {
+    if (mockAccount.filter(user => user.id === username && user.password === hashString).length > 0) {
       return {
         success: true
       }
@@ -63,14 +88,14 @@ export class AccountService {
 
     const hashString = this.#hashString(password);
 
-    if (mockAuth.filter(user => user.id === userId).length > 0) {
+    if (mockAccount.filter(user => user.id === userId).length > 0) {
       return {
         success: false,
         error: "User already exists"
       }
     }
 
-    mockAuth.push({ id: userId, password: hashString });
+    mockAccount.push({ id: userId, password: hashString });
     return {
       success: true
     };

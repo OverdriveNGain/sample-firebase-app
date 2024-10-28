@@ -5,11 +5,11 @@ import { AccountControlDialog } from "./account-control-dialog/account-control-d
 import { AccountControlDialogContext } from "../contexts/account-control-dialog-context";
 
 export const Navbar = () => {
-  const { account } = useContext(AccountContext);
+  const { accountService } = useContext(AccountContext);
   const [accountPanelMode, setAccountPanelMode] = useState(null);
 
-  const isLoggedIn = account != null;
-  const accountName = account?.name ?? "";
+  const isLoggedIn = accountService.isLoggedIn();
+  const accountName = accountService.getCurrentUser()?.name ?? "";
 
   const accountButtonCallback = () => {
     if (isLoggedIn) {
