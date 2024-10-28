@@ -1,4 +1,4 @@
-export const mockMessages = [
+export const mockMessagesTable = [
   { id: "1", from: "1", message: "Hello", timestamp: 1729755044 },
   { id: "2", from: "2", message: "Hi! What's up?", timestamp: 1729768044 },
   {

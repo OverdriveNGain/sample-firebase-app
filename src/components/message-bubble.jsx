@@ -1,19 +1,14 @@
-import { UsersContext } from "../contexts/users-context";
 import { AccountContext } from "../contexts/account-context";
 import { useContext } from "react";
 
 export const MessageBubble = ({ messageData }) => {
-  const { usersService } = useContext(UsersContext);
-  const { account } = useContext(AccountContext);
+  const { accountService } = useContext(AccountContext);
 
-  const user = usersService
-    .getUsers()
-    .find((user) => user.id === messageData.from);
-  const userName = user ? user.name : "Anonymous";
+  const account = accountService.getCurrentAccount();
+  const userName = account ? account.name : "Anonymous";
   const fromCurrentUser = messageData.from === account?.id;
   const previousMessageFromSameUser =
     messageData.prev?.from === messageData.from;
-  const nextMessageFromSameUser = messageData.next?.from === messageData.from;
 
   return fromCurrentUser ? (
     <div

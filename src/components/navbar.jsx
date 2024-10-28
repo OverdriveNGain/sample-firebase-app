@@ -8,8 +8,9 @@ export const Navbar = () => {
   const { accountService } = useContext(AccountContext);
   const [accountPanelMode, setAccountPanelMode] = useState(null);
 
-  const isLoggedIn = accountService.isLoggedIn();
-  const accountName = accountService.getCurrentUser()?.name ?? "";
+  const currentAccount = accountService.getCurrentAccount();
+  const isLoggedIn = currentAccount !== null;
+  const accountName = currentAccount?.name;
 
   const accountButtonCallback = () => {
     if (isLoggedIn) {

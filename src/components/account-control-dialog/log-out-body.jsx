@@ -3,8 +3,13 @@ import { AccountContext } from "../../contexts/account-context";
 import { AccountControlDialogContext } from "../../contexts/account-control-dialog-context";
 
 export const LogOutBody = () => {
-  const accountContext = useContext(AccountContext);
+  const { accountService } = useContext(AccountContext);
   const [, setAccountPanelMode] = useContext(AccountControlDialogContext);
+
+  const logOutOnClick = () => {
+    accountService.logout();
+    setAccountPanelMode(null);
+  };
 
   return (
     <div>
@@ -19,10 +24,7 @@ export const LogOutBody = () => {
         </button>
         <button
           className="bg-red-500 text-white px-4 py-2 rounded-lg ml-2"
-          onClick={() => {
-            setAccountPanelMode(null);
-            accountContext.setAccount(null);
-          }}
+          onClick={logOutOnClick}
           type="button"
         >
           Log Out

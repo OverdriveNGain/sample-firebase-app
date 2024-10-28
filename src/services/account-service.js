@@ -1,9 +1,10 @@
 
-import { mockAccount } from '../mocks/mock-accounts';
+import { mockAccountTable } from '../mocks/mock-accounts-table';
+import { v4 as uuidv4 } from 'uuid';
 
 export class AccountService {
   #currentUser = null;
-  #setFunction = null;
+  #setFunction = null; // [currentUser, mockAccountTable]
 
   /**
    * This function allows the AuthService instance to update the Application state
@@ -36,73 +37,92 @@ export class AccountService {
     // ⬆️ ⬆️ ⬆️ Update to use Firebase!
   };
 
-
   /**
-   * Retrieves the current user details.
+   * Logs in a user with the provided email and password.
    * 
-   * @returns {{ id: string, name: string }|null} - An object containing the current user details or null if no user is logged in.
-   */
-  getCurrentUser = () => {
-    // ⬇️ ⬇️ ⬇️ Update to use Firebase!
-
-    return { ...this.#currentUser };
-
-  // ⬆️ ⬆️ ⬆️ Update to use Firebase!
-  };
-
-  /**
-   * Logs in a user with the provided username and password.
-   * 
-   * @param {string} username - The username of the user.
+   * @param {string} email - The email of the user.
    * @param {string} password - The password of the user.
-   * @returns {{success: boolean, error: string | null}} - An object containing the success status and an error message if applicable.
+   * @returns {string} - An error message if the login failed, null otherwise.
    */
-  login = (username, password) => {
+  login = (email, password) => {
     // ⬇️ ⬇️ ⬇️ Update to use Firebase!
 
     const hashString = this.#hashString(password);
+    const matchedAccounts = mockAccountTable.filter(accounts => accounts.email === email && accounts.password === hashString);
 
-    if (mockAccount.filter(user => user.id === username && user.password === hashString).length > 0) {
-      return {
-        success: true
-      }
+    if (matchedAccounts.length > 0) {
+      this.#currentUser = matchedAccounts[0];
+      this.#setFunction([this.#currentUser, mockAccountTable]);
+
+      return null;
     }
 
-    return {
-      success: false,
-      error: "Invalid username or password"
-    };
+    return "Invalid username or password";
 
     // ⬆️ ⬆️ ⬆️ Update to use Firebase!
   };
 
   /**
-   * Logs in a user with the provided username and password.
-   * 
-   * @param {string} username - The username of the user.
-   * @param {string} password - The password of the user.
-   * @returns {{success: boolean, error: string | null}} - An object containing the success status and an error message if applicable.
+   * Logs out the current user.
    */
-  register = (userId, password) => {
+  logout = () => {
+    // ⬇️ ⬇️ ⬇️ Update to use Firebase!
+
+    this.#currentUser = null;
+    this.#setFunction([this.#currentUser, mockAccountTable]);
+
+    // ⬆️ ⬆️ ⬆️ Update to use Firebase!
+  };
+
+
+
+  /**
+   * Logs in a user with the provided email and password.
+   * 
+   * @param {string} email - The email of the user.
+   * @param {string} password - The password of the user.
+   * @param {string} name - The name of the user.
+   * @returns {{success: boolean, error: string | null, account: {id: string, email: string, name: string, passwordHash: string}}} - An object containing the success status and an error message if applicable.
+   */
+  register = (email, password, name) => {
     // ⬇️ ⬇️ ⬇️ Update to use Firebase!
 
     const hashString = this.#hashString(password);
 
-    if (mockAccount.filter(user => user.id === userId).length > 0) {
+    if (mockAccountTable.filter(user => user.email === email).length > 0) {
       return {
         success: false,
-        error: "User already exists"
+        error: "Email already exists"
       }
     }
 
-    mockAccount.push({ id: userId, password: hashString });
+    const newAccount = {
+      id: uuidv4(),
+      email,
+      name: email,
+      password: hashString
+    };
+
+    mockAccountTable.push(newAccount);
+    this.#currentUser = newAccount;
+    this.#setFunction([this.#currentUser, mockAccountTable]);
+
     return {
-      success: true
+      success: true,
+      account: { ...newAccount }
     };
 
     // ⬆️ ⬆️ ⬆️ Update to use Firebase!
   }
 
+  /**
+   * Gets the current user.
+   * 
+   * @returns {{id: string, email: string, name: string, passwordHash: string} | null} - The current user.
+   */
+  getCurrentAccount = () => {
+    return this.#currentUser === null ? null : { ...this.#currentUser };
+  }
 
   /**
    * Hashes a string using SHA256.

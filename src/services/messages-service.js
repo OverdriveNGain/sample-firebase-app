@@ -1,5 +1,5 @@
 
-import { mockMessages } from '../mocks/mock-messages';
+import { mockMessagesTable } from '../mocks/mock-messages-table';
 
 export class MessagesService {
   #setFunction = null;
@@ -23,7 +23,6 @@ export class MessagesService {
     this.#setFunction(messages);
   };
 
-
   /**
    * This function is used to asynchronously listen for new messages and fetch messages from the backend
    * and update the component tree
@@ -36,7 +35,7 @@ export class MessagesService {
     const intervalMillis = 2000;
 
     if (this.#messages.length === 0) {
-      this.#messages.push(...mockMessages);
+      this.#messages.push(...mockMessagesTable);
     }
 
     setInterval(() => {

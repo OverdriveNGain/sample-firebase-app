@@ -5,23 +5,34 @@ import { AccountControlMode } from "../../types/enums/account-control";
 
 export const LogInBody = () => {
   const [, setAccountPanelMode] = useContext(AccountControlDialogContext);
+  const { accountService } = useContext(AccountContext);
 
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const loginOnClick = () => {
+    const errorMessage = accountService.login(email, password);
+
+    if (errorMessage === null) {
+      setAccountPanelMode(null);
+    } else {
+      setErrorMessage(errorMessage);
+    }
+  };
 
   return (
     <div>
       <p>Enter your username and password to log in.</p>
       <div className="flex flex-col items-stretch">
         <label className="block my-2">
-          <span className="opacity-50">Username:</span>
+          <span className="opacity-50">Email:</span>
           <input
             className="p-2 border-2 border-gray-300 rounded-lg block w-full bg-gray-200"
             type="text"
-            placeholder="Enter your username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </label>
         <label className="block my-2">
@@ -52,7 +63,8 @@ export const LogInBody = () => {
           <button
             className="bg-green-500 text-white px-4 py-2 rounded-lg ml-2 disabled:opacity-25"
             type="button"
-            disabled={username.length === 0 || password.length === 0}
+            disabled={email.length === 0 || password.length === 0}
+            onClick={loginOnClick}
           >
             Log In
           </button>
