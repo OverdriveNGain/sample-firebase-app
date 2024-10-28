@@ -74,8 +74,6 @@ export class AccountService {
     // ⬆️ ⬆️ ⬆️ Update to use Firebase!
   };
 
-
-
   /**
    * Logs in a user with the provided email and password.
    * 
@@ -122,6 +120,17 @@ export class AccountService {
    */
   getCurrentAccount = () => {
     return this.#currentUser === null ? null : { ...this.#currentUser };
+  }
+
+  /**
+   * Gets an account by its ID.
+   * 
+   * @param {string} id - The ID of the account.
+   * @returns {{id: string, email: string, name: string, passwordHash: string} | null} - The account with the given ID, or null if not found.
+   */
+  getAccountById = (id) => {
+    const matchedAccounts = mockAccountTable.filter(accounts => accounts.id === id);
+    return matchedAccounts.length > 0 ? { ...matchedAccounts[0] } : null;
   }
 
   /**

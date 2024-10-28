@@ -4,9 +4,11 @@ import { useContext } from "react";
 export const MessageBubble = ({ messageData }) => {
   const { accountService } = useContext(AccountContext);
 
-  const account = accountService.getCurrentAccount();
-  const userName = account ? account.name : "Anonymous";
-  const fromCurrentUser = messageData.from === account?.id;
+  const currentAccount = accountService.getCurrentAccount();
+  const senderAccount = accountService.getAccountById(messageData.from);
+  const accountName = senderAccount ? senderAccount.name : "Anonymous";
+  const fromCurrentUser =
+    senderAccount && messageData.from === currentAccount?.id;
   const previousMessageFromSameUser =
     messageData.prev?.from === messageData.from;
 
@@ -24,7 +26,7 @@ export const MessageBubble = ({ messageData }) => {
     <>
       {!previousMessageFromSameUser && (
         <div className="mr-2 text-[10px] text-gray-400 mb mt-1 ml-4">
-          {userName}
+          {accountName}
         </div>
       )}
       <div className="flex mr-16 mt-1">

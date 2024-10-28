@@ -2,8 +2,8 @@
 import { mockMessagesTable } from '../mocks/mock-messages-table';
 
 export class MessagesService {
-  #setFunction = null;
   #messages = [];
+  #setFunction = null; // # messages
 
   /**
    * This function allows the MessagesService instance to update the Application state
@@ -26,13 +26,11 @@ export class MessagesService {
   /**
    * This function is used to asynchronously listen for new messages and fetch messages from the backend
    * and update the component tree
-   * 
-   * @param {Function} callback - a function that takes a parameter. If the operation was successful the parameter is an array of messages. If the operation failed, the parameter is a string with an error message
    */
-  fetchMessages = (callback) => {
+  fetchMessages = () => {
     // ⬇️ ⬇️ ⬇️ Update to use Firebase!
 
-    const intervalMillis = 2000;
+    const intervalMillis = 1000;
 
     if (this.#messages.length === 0) {
       this.#messages.push(...mockMessagesTable);
@@ -57,6 +55,8 @@ export class MessagesService {
       message,
       timestamp,
     });
+
+    this.#setFunction([...this.#messages]);
 
     // ⬆️ ⬆️ ⬆️ Update to use Firebase!
   };
