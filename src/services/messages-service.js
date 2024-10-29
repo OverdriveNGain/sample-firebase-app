@@ -1,6 +1,5 @@
 
-import { doc, setDoc } from "firebase/firestore";
-import { mockMessagesTable } from '../mocks/mock-messages-table';
+import { doc, setDoc, collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import { firestore } from "../main";
 
 export class MessagesService {
@@ -30,19 +29,15 @@ export class MessagesService {
    * and update the component tree
    */
   fetchMessages = () => {
-    // ⬇️ ⬇️ ⬇️ Update to use Firebase!
-
-    const intervalMillis = 1000;
-
-    if (this.#messages.length === 0) {
-      this.#messages.push(...mockMessagesTable);
-    }
-
-    setInterval(() => {
-      this.#setFunction(this.#messages)
-    }, intervalMillis);
-
-    // ⬆️ ⬆️ ⬆️ Update to use Firebase!
+    const q = query(collection(firestore, "messages"), orderBy("timestamp"));
+    onSnapshot(q, (querySnapshot) => {
+      const messages = [];
+      for (const doc of querySnapshot.docs) {
+        messages.push({ ...doc.data(), id: doc.id });
+      }
+      this.#messages = messages;
+      this.setMessages(messages);
+    });
   };
 
   /**
