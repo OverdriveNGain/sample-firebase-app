@@ -58,10 +58,6 @@ export class MessagesService {
    * This function is used to fetch messages from the last snapshot from the database
    */
   getMessages = () => {
-    // ⬇️ ⬇️ ⬇️ Update to use Firebase!
-
     return [...this.#messages];
-
-    // ⬆️ ⬆️ ⬆️ Update to use Firebase!
   };
 }
