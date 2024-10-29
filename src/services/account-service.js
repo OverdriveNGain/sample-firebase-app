@@ -97,7 +97,7 @@ export class AccountService {
     const newAccount = {
       id: uuidv4(),
       email,
-      name: email,
+      name,
       password: hashString
     };
 
