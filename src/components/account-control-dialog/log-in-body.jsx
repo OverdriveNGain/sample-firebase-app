@@ -11,9 +11,8 @@ export const LogInBody = () => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const loginOnClick = () => {
-    const errorMessage = accountService.login(email, password);
-
+  const loginOnClick = async () => {
+    const errorMessage = await accountService.login(email, password);
     if (errorMessage == null) {
       setAccountPanelMode(null);
     } else {

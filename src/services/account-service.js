@@ -1,6 +1,6 @@
-import { doc, setDoc, collection, query } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { mockAccountTable } from '../mocks/mock-accounts-table';
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, firestore } from "../main";
 
 export class AccountService {
@@ -46,21 +46,32 @@ export class AccountService {
    * @returns {string} - An error message if the login failed, null otherwise.
    */
   login = (email, password) => {
-    // ⬇️ ⬇️ ⬇️ Update to use Firebase!
+    return signInWithEmailAndPassword(auth, email, password)
+      .then(async (userCredential) => {
+        const user = userCredential.user;
+        const docRef = doc(firestore, "accounts", user.uid);
+        const docToUse = await getDoc(docRef);
 
-    const hashString = this.#hashString(password);
-    const matchedAccounts = mockAccountTable.filter(accounts => accounts.email === email && accounts.password === hashString);
+        if (!docToUse.exists()) {
+          return 'Invalid username or password';
+        }
 
-    if (matchedAccounts.length > 0) {
-      this.#currentUser = matchedAccounts[0];
-      this.#setFunction([this.#currentUser, mockAccountTable]);
-
-      return null;
-    }
-
-    return "Invalid username or password";
-
-    // ⬆️ ⬆️ ⬆️ Update to use Firebase!
+        this.#currentUser = {
+          id: docToUse.id,
+          name: docToUse.data().name,
+        };
+        this.#setFunction(this.#currentUser);
+      })
+      .catch((error) => {
+        switch (error.code) {
+          case 'auth/user-not-found':
+            return 'Invalid username or password';
+          case 'auth/wrong-password':
+            return 'Invalid username or password';
+          default:
+            return `Unknown error ${errorCode}`;
+        }
+      });
   };
 
   /**
