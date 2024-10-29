@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import App from "./components/app.jsx";
 import "./index.css";
 import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -14,6 +15,7 @@ import { firebaseConfig } from "../firebase.config.js";
 initializeApp(firebaseConfig);
 
 export const firestore = getFirestore();
+export const auth = getAuth();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

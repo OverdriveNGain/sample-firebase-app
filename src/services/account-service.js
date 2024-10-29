@@ -1,10 +1,11 @@
-
+import { doc, setDoc, collection, query } from "firebase/firestore";
 import { mockAccountTable } from '../mocks/mock-accounts-table';
-import { v4 as uuidv4 } from 'uuid';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, firestore } from "../main";
 
 export class AccountService {
   #currentUser = null;
-  #setFunction = null; // [currentUser, mockAccountTable]
+  #setFunction = null; // currentUser
 
   /**
    * This function allows the AuthService instance to update the Application state
@@ -83,34 +84,45 @@ export class AccountService {
    * @returns {{success: boolean, error: string | null, account: {id: string, email: string, name: string, passwordHash: string}}} - An object containing the success status and an error message if applicable.
    */
   register = (email, password, name) => {
-    // ⬇️ ⬇️ ⬇️ Update to use Firebase!
+    return createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
 
-    const hashString = this.#hashString(password);
+        setDoc(doc(firestore, "accounts", user.uid), {
+          name,
+        })
 
-    if (mockAccountTable.filter(user => user.email === email).length > 0) {
-      return {
-        success: false,
-        error: "Email already exists"
-      }
-    }
+        const newAccount = {
+          id: user.uid,
+          name,
+        };
 
-    const newAccount = {
-      id: uuidv4(),
-      email,
-      name,
-      password: hashString
-    };
+        this.#currentUser = newAccount;
+        this.#setFunction(this.#currentUser);
 
-    mockAccountTable.push(newAccount);
-    this.#currentUser = newAccount;
-    this.#setFunction([this.#currentUser, mockAccountTable]);
-
-    return {
-      success: true,
-      account: { ...newAccount }
-    };
-
-    // ⬆️ ⬆️ ⬆️ Update to use Firebase!
+        return {
+          success: true,
+          account: { ...newAccount }
+        };
+      }).catch((error) => {
+        switch (error.code) {
+          case 'auth/email-already-in-use':
+            return {
+              success: false,
+              error: 'Email already in use'
+            }
+          case 'auth/weak-password':
+            return {
+              success: false,
+              error: 'Password is too weak'
+            }
+          default:
+            return {
+              success: false,
+              error: `Unknown error (${error})`
+            }
+        }
+      });
   }
 
   /**

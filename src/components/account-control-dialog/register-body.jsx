@@ -14,7 +14,7 @@ export const RegisterBody = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const registerOnClick = () => {
+  const registerOnClick = async () => {
     if (password !== confirmPassword) {
       setErrorMessage("Passwords do not match");
       return;
@@ -22,7 +22,8 @@ export const RegisterBody = () => {
 
     setErrorMessage("");
 
-    const accountData = accountService.register(email, password, name);
+    const accountData = await accountService.register(email, password, name);
+
     const accountRegisterSuccess = accountData.success;
 
     if (!accountRegisterSuccess) {
