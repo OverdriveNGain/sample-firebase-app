@@ -26,7 +26,7 @@ export const RegisterBody = () => {
     const accountRegisterSuccess = accountData.success;
 
     if (!accountRegisterSuccess) {
-      setErrorMessage(accountData.errorMessage);
+      setErrorMessage(accountData.error);
       return;
     }
 
