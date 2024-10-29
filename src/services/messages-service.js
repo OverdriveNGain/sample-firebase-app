@@ -43,6 +43,9 @@ export class MessagesService {
     // ⬆️ ⬆️ ⬆️ Update to use Firebase!
   };
 
+  /**
+   * This function is used to send a message to the database
+   */
   sendMessage = (message, accountId) => {
     // ⬇️ ⬇️ ⬇️ Update to use Firebase!
 
@@ -61,6 +64,9 @@ export class MessagesService {
     // ⬆️ ⬆️ ⬆️ Update to use Firebase!
   };
 
+  /**
+   * This function is used to fetch messages from the last snapshot from the database
+   */
   getMessages = () => {
     // ⬇️ ⬇️ ⬇️ Update to use Firebase!
 
