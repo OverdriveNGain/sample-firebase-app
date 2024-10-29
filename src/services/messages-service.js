@@ -1,5 +1,7 @@
 
+import { doc, setDoc } from "firebase/firestore";
 import { mockMessagesTable } from '../mocks/mock-messages-table';
+import { firestore } from "../main";
 
 export class MessagesService {
   #messages = [];
@@ -47,21 +49,14 @@ export class MessagesService {
    * This function is used to send a message to the database
    */
   sendMessage = (message, accountId) => {
-    // ⬇️ ⬇️ ⬇️ Update to use Firebase!
-
     const messageId = crypto.randomUUID();
     const timestamp = new Date().getTime();
 
-    this.#messages.push({
-      id: messageId,
+    setDoc(doc(firestore, "messages", messageId), {
       from: accountId,
-      message,
-      timestamp,
+      message: message,
+      timestamp: timestamp
     });
-
-    this.#setFunction([...this.#messages]);
-
-    // ⬆️ ⬆️ ⬆️ Update to use Firebase!
   };
 
   /**
