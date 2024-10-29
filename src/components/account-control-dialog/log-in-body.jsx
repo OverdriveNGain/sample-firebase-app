@@ -14,7 +14,7 @@ export const LogInBody = () => {
   const loginOnClick = () => {
     const errorMessage = accountService.login(email, password);
 
-    if (errorMessage === null) {
+    if (errorMessage == null) {
       setAccountPanelMode(null);
     } else {
       setErrorMessage(errorMessage);
