@@ -129,8 +129,12 @@ export class AccountService {
    * @returns {{id: string, email: string, name: string, passwordHash: string} | null} - The account with the given ID, or null if not found.
    */
   getAccountById = (id) => {
+    // ⬇️ ⬇️ ⬇️ Update to use Firebase!
+
     const matchedAccounts = mockAccountTable.filter(accounts => accounts.id === id);
     return matchedAccounts.length > 0 ? { ...matchedAccounts[0] } : null;
+
+    // ⬆️ ⬆️ ⬆️ Update to use Firebase!
   }
 
   /**
