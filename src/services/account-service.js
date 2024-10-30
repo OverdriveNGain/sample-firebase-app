@@ -1,6 +1,6 @@
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { mockAccountTable } from '../mocks/mock-accounts-table';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth, firestore } from "../main";
 
 export class AccountService {
@@ -78,12 +78,9 @@ export class AccountService {
    * Logs out the current user.
    */
   logout = () => {
-    // ⬇️ ⬇️ ⬇️ Update to use Firebase!
-
+    signOut(auth);
     this.#currentUser = null;
-    this.#setFunction([this.#currentUser, mockAccountTable]);
-
-    // ⬆️ ⬆️ ⬆️ Update to use Firebase!
+    this.#setFunction(this.#currentUser);
   };
 
   /**
