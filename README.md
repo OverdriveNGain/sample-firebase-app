@@ -1,8 +1,13 @@
-# React + Vite
+# Running Global Chat Locally
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+To run the global chat locally, you must first install npm dependencies using `npm install`. Then you can run the app using `npm run dev`.
 
-Currently, two official plugins are available:
+# Activity Checkpoints
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+You can jump to different checkpoints in the exercise by checking out certain commits with the following tags:
+
+- `messages-service-start` - Starting point of the messages service implementation
+- `account-service-start` - Implementation for messages services done; starting point of the account service implementation
+- `project-done` - Implementation for account service done; completed project
+
+You can check the full timeline of commits of the project by running `git log --oneline`.
