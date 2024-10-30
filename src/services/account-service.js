@@ -31,11 +31,7 @@ export class AccountService {
    * @returns {boolean} - True if a user is currently logged in, false otherwise.
    */
   isLoggedIn = () => {
-    // ⬇️ ⬇️ ⬇️ Update to use Firebase!
-
     return this.#currentUser !== null;
-
-    // ⬆️ ⬆️ ⬆️ Update to use Firebase!
   };
 
   /**
