@@ -1,11 +1,18 @@
 import { AccountContext } from "../contexts/account-context";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export const MessageBubble = ({ messageData }) => {
   const { accountService } = useContext(AccountContext);
+  const [senderAccount, setSenderAccount] = useState(null);
 
   const currentAccount = accountService.getCurrentAccount();
-  const senderAccount = accountService.getAccountById(messageData.from);
+
+  useEffect(() => {
+    accountService
+      .getAccountById(messageData.from)
+      .then((account) => setSenderAccount(account));
+  }, [messageData.from, accountService]);
+
   const accountName = senderAccount ? senderAccount.name : "Anonymous";
   const fromCurrentUser =
     senderAccount && messageData.from === currentAccount?.id;

@@ -6,6 +6,7 @@ import { auth, firestore } from "../main";
 export class AccountService {
   #currentUser = null;
   #setFunction = null; // currentUser
+  #cachedAccounts = new Map();
 
   /**
    * This function allows the AuthService instance to update the Application state
@@ -144,13 +145,31 @@ export class AccountService {
    * @param {string} id - The ID of the account.
    * @returns {{id: string, email: string, name: string, passwordHash: string} | null} - The account with the given ID, or null if not found.
    */
-  getAccountById = (id) => {
-    // ⬇️ ⬇️ ⬇️ Update to use Firebase!
+  getAccountById = async (id) => {
+    const cachedAccount = this.#cachedAccounts.get(id);
 
-    const matchedAccounts = mockAccountTable.filter(accounts => accounts.id === id);
-    return matchedAccounts.length > 0 ? { ...matchedAccounts[0] } : null;
+    if (cachedAccount != null) {
+      return { ...cachedAccount };
+    }
 
-    // ⬆️ ⬆️ ⬆️ Update to use Firebase!
+    const docRef = doc(firestore, "accounts", id);
+
+    console.log(`Fetching account ${id}`);
+
+    const docToUse = await getDoc(docRef);
+
+    if (!docToUse.exists()) {
+      return null;
+    }
+
+    const accountToReturn = {
+      id: docToUse.id,
+      name: docToUse.data().name,
+    };
+
+    this.#cachedAccounts.set(id, { ...accountToReturn });
+
+    return accountToReturn;
   }
 
   /**
